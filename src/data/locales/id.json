@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "projects": "Studi Kasus",
+    "systemDesign": "Desain Sistem",
+    "writing": "Tulisan",
+    "contact": "Hubungi"
+  },
+  "home": {
+    "flagshipEvidence": "Bukti Utama",
+    "caseStudiesTitle": "Studi kasus dengan bukti empiris.",
+    "viewAll": "Lihat semua proyek",
+    "philosophy": "Filosofi",
+    "currentFocus": "Fokus Saat Ini"
+  },
+  "caseStudy": {
+    "badge": "Studi Kasus",
+    "repository": "Repositori",
+    "demo": "Demo",
+    "role": "Peran",
+    "duration": "Durasi",
+    "team": "Tim",
+    "people": "orang",
+    "stack": "Teknologi",
+    "dossier": "Dokumen",
+    "architectureDecisions": "Keputusan Arsitektur",
+    "signal": "Sinyal"
+  },
+  "projects": {
+    "badge": "Arsip Studi Kasus",
+    "headline": "Karya rekayasa yang dijelaskan melalui batasan, kompromi, dan hasil nyata."
+  },
+  "writing": {
+    "badge": "Tulisan",
+    "headline": "Catatan mengenai sistem, kompromi (trade-offs), dan penilaian rekayasa.",
+    "readTimeLabel": "menit membaca"
+  },
+  "contact": {
+    "badge": "Hubungi",
+    "headline": "Sampaikan masalah rekayasa perangkat lunak yang menantang.",
+    "name": "Nama",
+    "email": "Email",
+    "message": "Pesan",
+    "send": "Kirim pesan"
+  },
+  "systemDesign": {
+    "badge": "Desain Sistem",
+    "headline": "Catatan desain untuk sistem yang bertahan dari beban lalu lintas tinggi, ketidakpastian, dan penanganan rekayasa berikutnya.",
+    "diagramTitle": "Model desain sistem yang dapat digunakan kembali",
+    "principles": [
+      "Mulai dari mode kegagalan sebelum menggambar kotak.",
+      "Perlakukan kontrak data seperti kontrak produk.",
+      "Pilih primitif sederhana yang teruji sampai pengukuran membuktikan sebaliknya.",
+      "Buat kepemilikan operasional terlihat jelas di antarmuka."
+    ]
+  },
+  "admin": {
+    "controlPlane": "Dasbor Kontrol Portofolio",
+    "dashboard": "Dasbor",
+    "projects": "Proyek",
+    "blog": "Blog",
+    "adrs": "ADR",
+    "profile": "Profil",
+    "settings": "Pengaturan Situs",
+    "logout": "Keluar",
+    "new": "Baru",
+    "create": "Buat",
+    "save": "Simpan"
+  },
+  "footer": {
+    "platform": "Ridhuan Rangga Kusuma",
+    "description": "Software engineer yang berbasis di Jakarta. Saya membangun sistem backend yang skalabel dan menulis jujur tentang trade-off yang ada.",
+    "admin": "Admin"
+  }
+}

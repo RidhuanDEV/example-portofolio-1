@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "projects": "Case Studies",
+    "systemDesign": "System Design",
+    "writing": "Writing",
+    "contact": "Contact"
+  },
+  "home": {
+    "flagshipEvidence": "Flagship Evidence",
+    "caseStudiesTitle": "Case studies with receipts.",
+    "viewAll": "View all projects",
+    "philosophy": "Philosophy",
+    "currentFocus": "Current Focus"
+  },
+  "caseStudy": {
+    "badge": "Case Study",
+    "repository": "Repository",
+    "demo": "Demo",
+    "role": "Role",
+    "duration": "Duration",
+    "team": "Team",
+    "people": "people",
+    "stack": "Stack",
+    "dossier": "Dossier",
+    "architectureDecisions": "Architecture Decisions",
+    "signal": "Signal"
+  },
+  "projects": {
+    "badge": "Case Study Archive",
+    "headline": "Engineering work explained through constraints, trade-offs, and outcomes."
+  },
+  "writing": {
+    "badge": "Writing",
+    "headline": "Notes on systems, trade-offs, and engineering judgment.",
+    "readTimeLabel": "min read"
+  },
+  "contact": {
+    "badge": "Contact",
+    "headline": "Bring a hard engineering problem.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send message"
+  },
+  "systemDesign": {
+    "badge": "System Design",
+    "headline": "Design notes for systems that survive traffic, ambiguity, and the next engineer.",
+    "diagramTitle": "Reusable system design model",
+    "principles": [
+      "Start from failure modes before drawing boxes.",
+      "Treat data contracts as product contracts.",
+      "Prefer boring primitives until measurement proves otherwise.",
+      "Make operational ownership visible in the interface."
+    ]
+  },
+  "admin": {
+    "controlPlane": "Portfolio control plane",
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "blog": "Blog",
+    "adrs": "ADRs",
+    "profile": "Profile",
+    "settings": "Site Settings",
+    "logout": "Logout",
+    "new": "New",
+    "create": "Create",
+    "save": "Save"
+  },
+  "footer": {
+    "platform": "Ridhuan Rangga Kusuma",
+    "description": "Software engineer based in Jakarta. I build scalable backend systems and write honestly about the trade-offs along the way.",
+    "admin": "Admin"
+  }
+}
