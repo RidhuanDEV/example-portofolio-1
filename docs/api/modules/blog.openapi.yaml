@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: Porto v3 Portfolio & CMS API - blog Module
+  version: 1.0.0
+  description: Source-verified OpenAPI 3.1.0 contract managed by Shadow Army.
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+tags:
+  - name: Blog
+    description: Endpoints for Blog
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: {}
+paths:
+  /api/blog:
+    get:
+      summary: List blog articles
+      description: List blog posts filtered by published or draft status.
+      tags:
+        - Blog
+      operationId: get_api_blog
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Status filter (published|draft)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of blog posts
+    post:
+      summary: Create a blog article
+      description: Create a new bilingual technical blog post (admin only).
+      tags:
+        - Blog
+      operationId: post_api_blog
+      security:
+        - BearerAuth: []
+      responses:
+        "201":
+          description: Blog post created
+        "401":
+          description: Unauthorized
+  /api/blog/{id}:
+    get:
+      summary: Get blog article by ID or slug
+      description: Retrieve a blog post by ObjectId or slug.
+      tags:
+        - Blog
+      operationId: get_api_blog_id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Blog ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog post found
+        "404":
+          description: Not found
+    put:
+      summary: Update blog article by ID or slug
+      description: Update a blog post by ObjectId or slug (admin only).
+      tags:
+        - Blog
+      operationId: put_api_blog_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Blog ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog post updated
+        "401":
+          description: Unauthorized
+    delete:
+      summary: Delete blog article by ID or slug
+      description: Delete a blog post by ObjectId or slug (admin only).
+      tags:
+        - Blog
+      operationId: delete_api_blog_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Blog ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted successfully
+        "401":
+          description: Unauthorized

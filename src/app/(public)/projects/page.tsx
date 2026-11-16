@@ -1,4 +1,4 @@
-import { ProjectCard } from "@/components/project/ProjectCard";
+import { ProjectExplorer } from "@/components/project/ProjectExplorer";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { getPublishedProjects } from "@/lib/data";
 import { getTranslations } from "@/lib/i18n";
@@ -7,8 +7,10 @@ import { getServerLocale } from "@/lib/i18n-server";
 export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
-  const projects = await getPublishedProjects();
-  const locale = await getServerLocale();
+  const [projects, locale] = await Promise.all([
+    getPublishedProjects(),
+    getServerLocale(),
+  ]);
   const dict = getTranslations(locale);
 
   return (
@@ -17,15 +19,11 @@ export default async function ProjectsPage() {
         <p className="font-mono text-xs uppercase tracking-[0.24em] text-teal-200">
           {dict.projects.badge}
         </p>
-        <h1 className="mt-5 max-w-3xl text-5xl font-semibold text-white">
+        <h1 className="mt-5 max-w-3xl text-4xl font-semibold text-white sm:text-5xl">
           {dict.projects.headline}
         </h1>
       </AnimatedSection>
-      <div className="mt-10 grid gap-4 lg:grid-cols-3">
-        {projects.map((project, index) => (
-          <ProjectCard key={project.slug} project={project} index={index} locale={locale} />
-        ))}
-      </div>
+      <ProjectExplorer projects={projects} locale={locale} dict={dict} />
     </main>
   );
 }

@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: Porto v3 Portfolio & CMS API - settings Module
+  version: 1.0.0
+  description: Source-verified OpenAPI 3.1.0 contract managed by Shadow Army.
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+tags:
+  - name: Settings
+    description: Endpoints for Settings
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: {}
+paths:
+  /api/site-settings:
+    get:
+      summary: Get site settings
+      description: Get global site settings, hero copy, and featured metrics.
+      tags:
+        - Settings
+      operationId: get_api_site_settings
+      responses:
+        "200":
+          description: Site settings payload
+    put:
+      summary: Update site settings
+      description: Upsert global site settings (admin only).
+      tags:
+        - Settings
+      operationId: put_api_site_settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Updated site settings
+        "401":
+          description: Unauthorized

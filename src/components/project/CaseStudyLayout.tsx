@@ -94,7 +94,12 @@ export function CaseStudyLayout({ project, locale }: CaseStudyLayoutProps) {
                 {section.type}
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-white">{t(section.title, locale)}</h2>
-              {section.diagram?.interactive ? <ArchitectureDiagram title={t(section.title, locale)} /> : null}
+              {section.diagram?.interactive ? (
+                <ArchitectureDiagram
+                  title={t(section.title, locale)}
+                  nodes={section.diagram.nodes}
+                />
+              ) : null}
               <div className="mt-5">
                 <RichTextRenderer html={t(section.content, locale)} />
               </div>

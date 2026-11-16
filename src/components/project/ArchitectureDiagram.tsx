@@ -1,12 +1,14 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useDraggableNodes } from "@/lib/hooks/useDraggableNodes";
+import type { DiagramNode, DiagramTone } from "@/types/domain";
 
 interface ArchitectureDiagramProps {
   title: string;
+  nodes?: DiagramNode[];
 }
 
 interface NodeDef {
@@ -15,57 +17,96 @@ interface NodeDef {
   y: number;
   width: number;
   height: number;
-  textOffsetX: number;
-  textOffsetY: number;
   fillDark: string;
   strokeDark: string;
   fillLight: string;
   strokeLight: string;
 }
 
-const initialNodes: NodeDef[] = [
-  {
-    label: "Client",
-    x: 20, y: 70, width: 140, height: 70,
-    textOffsetX: 48, textOffsetY: 42,
-    fillDark: "rgba(45,212,191,.08)",    strokeDark: "rgba(94,234,212,.55)",
-    fillLight: "rgba(0,0,0,0.04)",       strokeLight: "#333333",
-  },
-  {
-    label: "Policy Engine",
-    x: 305, y: 38, width: 150, height: 72,
-    textOffsetX: 27, textOffsetY: 44,
-    fillDark: "rgba(253,230,138,.08)",   strokeDark: "rgba(253,230,138,.5)",
-    fillLight: "rgba(0,0,0,0.04)",       strokeLight: "#333333",
-  },
-  {
-    label: "Cache Layer",
-    x: 305, y: 150, width: 150, height: 72,
-    textOffsetX: 32, textOffsetY: 44,
-    fillDark: "rgba(16,185,129,.08)",    strokeDark: "rgba(110,231,183,.5)",
-    fillLight: "rgba(0,0,0,0.04)",       strokeLight: "#333333",
-  },
-  {
-    label: "Telemetry",
-    x: 600, y: 94, width: 140, height: 72,
-    textOffsetX: 37, textOffsetY: 44,
-    fillDark: "rgba(167,139,250,.08)",   strokeDark: "rgba(147,197,253,.5)", // Soft Blue from Violet
-    fillLight: "rgba(0,0,0,0.04)",       strokeLight: "#333333",
-  },
+const slotTemplates: Array<{
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  defaultTone: DiagramTone;
+}> = [
+  { x: 20, y: 78, width: 160, height: 74, defaultTone: "teal" },
+  { x: 295, y: 34, width: 170, height: 74, defaultTone: "amber" },
+  { x: 295, y: 152, width: 170, height: 74, defaultTone: "green" },
+  { x: 580, y: 92, width: 160, height: 74, defaultTone: "blue" },
 ];
+
+const defaultCustomNodes: DiagramNode[] = [
+  { id: "client", label: "Client / UI", tone: "teal" },
+  { id: "policy", label: "Auth / Policy", tone: "amber" },
+  { id: "cache", label: "Cache / Queue", tone: "green" },
+  { id: "store", label: "Primary Store", tone: "blue" },
+];
+
+function paletteForTone(tone: DiagramTone): Pick<NodeDef, "fillDark" | "strokeDark" | "fillLight" | "strokeLight"> {
+  if (tone === "amber") {
+    return {
+      fillDark: "rgba(253,230,138,.08)",
+      strokeDark: "rgba(253,230,138,.5)",
+      fillLight: "rgba(180,83,9,0.06)",
+      strokeLight: "#b45309",
+    };
+  }
+  if (tone === "green") {
+    return {
+      fillDark: "rgba(16,185,129,.08)",
+      strokeDark: "rgba(110,231,183,.5)",
+      fillLight: "rgba(15,118,110,0.06)",
+      strokeLight: "#0f766e",
+    };
+  }
+  if (tone === "blue") {
+    return {
+      fillDark: "rgba(147,197,253,.08)",
+      strokeDark: "rgba(147,197,253,.5)",
+      fillLight: "rgba(15,23,42,0.05)",
+      strokeLight: "#0f172a",
+    };
+  }
+  return {
+    fillDark: "rgba(45,212,191,.08)",
+    strokeDark: "rgba(94,234,212,.55)",
+    fillLight: "rgba(15,118,110,0.06)",
+    strokeLight: "#0f766e",
+  };
+}
+
+function buildInitialNodes(customNodes?: DiagramNode[]): NodeDef[] {
+  const source = customNodes && customNodes.length >= 4 ? customNodes.slice(0, 4) : defaultCustomNodes;
+  return slotTemplates.map((slot, index) => {
+    const item = source[index] ?? defaultCustomNodes[index];
+    const tone = item.tone ?? slot.defaultTone;
+    const palette = paletteForTone(tone);
+    return {
+      label: item.label,
+      x: slot.x,
+      y: slot.y,
+      width: slot.width,
+      height: slot.height,
+      ...palette,
+    };
+  });
+}
 
 const edgeColors = [
-  { dark: "rgb(94 234 212)", light: "#333333" },
-  { dark: "rgb(110 231 183)", light: "#333333" },
-  { dark: "rgb(147 197 253)", light: "#333333" }, // Soft Blue
-  { dark: "rgb(147 197 253)", light: "#333333" }, // Soft Blue
+  { dark: "rgb(94 234 212)", light: "#0f766e" },
+  { dark: "rgb(110 231 183)", light: "#0f766e" },
+  { dark: "rgb(147 197 253)", light: "#334155" },
+  { dark: "rgb(147 197 253)", light: "#334155" },
 ];
 
-export function ArchitectureDiagram({ title }: ArchitectureDiagramProps) {
+export function ArchitectureDiagram({ title, nodes }: ArchitectureDiagramProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const { theme } = useTheme();
   const isLight = theme === "light";
+
+  const initialNodes = useMemo(() => buildInitialNodes(nodes), [nodes]);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -80,74 +121,55 @@ export function ArchitectureDiagram({ title }: ArchitectureDiagramProps) {
     onPointerUp,
     activeDragIndex,
   } = useDraggableNodes<NodeDef>(
-    initialNodes.map((n) => ({ ...n })),
+    initialNodes,
     760,
     260,
     ref,
-    150,
-    72
+    170,
+    74
   );
 
-  const arrowFill   = isLight ? "#333333" : "rgb(94 234 212)";
-  const labelColor  = isLight ? "#333333" : "#f4f4f5";
-  const containerBg = isLight ? "#ffffff" : "#0c0e11";
-  const containerBorder = isLight ? "rgba(51,51,51,0.18)" : "rgba(255,255,255,0.1)";
-  const titleColor  = isLight ? "#333333" : "rgb(153 246 228)"; /* teal-200 in dark */
-  const subtitleColor = isLight ? "#333333" : "#71717a";
+  const arrowFill = isLight ? "#0f766e" : "rgb(94 234 212)";
+  const labelColor = isLight ? "#0f172a" : "#f4f4f5";
+  const containerBg = isLight ? "#f8fafc" : "#0c0e11";
+  const containerBorder = isLight ? "rgba(15,23,42,0.16)" : "rgba(255,255,255,0.1)";
+  const titleColor = isLight ? "#0f766e" : "rgb(153 246 228)";
+  const subtitleColor = isLight ? "#475569" : "#94a3b8";
 
   const getDynamicPath = (edgeIndex: number): string => {
-    const client = nodesState[0];
-    const policy = nodesState[1];
-    const cache = nodesState[2];
-    const telemetry = nodesState[3];
+    const n0 = nodesState[0];
+    const n1 = nodesState[1];
+    const n2 = nodesState[2];
+    const n3 = nodesState[3];
+    if (!n0 || !n1 || !n2 || !n3) return "";
 
     if (edgeIndex === 0) {
-      // client -> policy
-      const x1 = client.x + client.width;
-      const y1 = client.y + 36;
-      const x2 = policy.x;
-      const y2 = policy.y + 38;
-      const cp1x = x1 + 60;
-      const cp1y = y1;
-      const cp2x = x2 - 64;
-      const cp2y = y2;
-      return `M${x1} ${y1} C${cp1x} ${cp1y} ${cp2x} ${cp2y} ${x2} ${y2}`;
+      const x1 = n0.x + n0.width;
+      const y1 = n0.y + 34;
+      const x2 = n1.x;
+      const y2 = n1.y + 38;
+      return `M${x1} ${y1} C${x1 + 56} ${y1} ${x2 - 58} ${y2} ${x2} ${y2}`;
     }
     if (edgeIndex === 1) {
-      // client -> cache
-      const x1 = client.x + client.width;
-      const y1 = client.y + 50;
-      const x2 = cache.x;
-      const y2 = cache.y + 36;
-      const cp1x = x1 + 65;
-      const cp1y = y1 + 6;
-      const cp2x = x2 - 61;
-      const cp2y = y2 - 2;
-      return `M${x1} ${y1} C${cp1x} ${cp1y} ${cp2x} ${cp2y} ${x2} ${y2}`;
+      const x1 = n0.x + n0.width;
+      const y1 = n0.y + 48;
+      const x2 = n2.x;
+      const y2 = n2.y + 36;
+      return `M${x1} ${y1} C${x1 + 58} ${y1 + 6} ${x2 - 56} ${y2 - 2} ${x2} ${y2}`;
     }
     if (edgeIndex === 2) {
-      // policy -> telemetry
-      const x1 = policy.x + policy.width;
-      const y1 = policy.y + 39;
-      const x2 = telemetry.x;
-      const y2 = telemetry.y + 30;
-      const cp1x = x1 + 64;
-      const cp1y = y1 + 3;
-      const cp2x = x2 - 58;
-      const cp2y = y2 - 6;
-      return `M${x1} ${y1} C${cp1x} ${cp1y} ${cp2x} ${cp2y} ${x2} ${y2}`;
+      const x1 = n1.x + n1.width;
+      const y1 = n1.y + 38;
+      const x2 = n3.x;
+      const y2 = n3.y + 28;
+      return `M${x1} ${y1} C${x1 + 56} ${y1 + 4} ${x2 - 54} ${y2 - 6} ${x2} ${y2}`;
     }
     if (edgeIndex === 3) {
-      // cache -> telemetry
-      const x1 = cache.x + cache.width;
-      const y1 = cache.y + 36;
-      const x2 = telemetry.x;
-      const y2 = telemetry.y + 46;
-      const cp1x = x1 + 66;
-      const cp1y = y1 - 2;
-      const cp2x = x2 - 56;
-      const cp2y = y2 + 10;
-      return `M${x1} ${y1} C${cp1x} ${cp1y} ${cp2x} ${cp2y} ${x2} ${y2}`;
+      const x1 = n2.x + n2.width;
+      const y1 = n2.y + 36;
+      const x2 = n3.x;
+      const y2 = n3.y + 46;
+      return `M${x1} ${y1} C${x1 + 56} ${y1 - 2} ${x2 - 54} ${y2 + 8} ${x2} ${y2}`;
     }
     return "";
   };
@@ -204,7 +226,7 @@ export function ArchitectureDiagram({ title }: ArchitectureDiagramProps) {
           const isDragged = activeDragIndex === index;
           return (
             <g
-              key={node.label}
+              key={`${node.label}-${index}`}
               className="select-none"
               style={{
                 cursor: isDragged ? "grabbing" : "grab",
@@ -224,10 +246,11 @@ export function ArchitectureDiagram({ title }: ArchitectureDiagramProps) {
                 ry={2}
               />
               <text
-                x={node.x + node.textOffsetX}
-                y={node.y + node.textOffsetY}
+                x={node.x + node.width / 2}
+                y={node.y + node.height / 2 + 5}
+                textAnchor="middle"
                 fill={labelColor}
-                fontSize="16"
+                fontSize="13.5"
                 fontFamily="monospace"
                 className="pointer-events-none select-none"
               >

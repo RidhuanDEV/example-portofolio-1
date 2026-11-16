@@ -5,8 +5,8 @@ import { useMemo, useState } from "react";
 import { Save } from "lucide-react";
 import { projectPayloadSchema } from "@/lib/validation";
 import { splitCsv } from "@/lib/utils";
-import type { ADR, CaseStudySection, Metric, ProjectRecord, ProjectStatus, TechItem } from "@/types/domain";
-import { projectStatuses } from "@/types/domain";
+import type { ADR, CaseStudySection, Metric, ProjectCategory, ProjectRecord, ProjectStatus, TechItem } from "@/types/domain";
+import { projectCategories, projectStatuses } from "@/types/domain";
 import { MetricsEditor, TechStackEditor, SectionsEditor, AdrsEditor } from "@/components/admin/ProjectSubForms";
 import { z } from "zod";
 
@@ -16,6 +16,10 @@ const errorResponseSchema = z.object({
 
 function isProjectStatus(val: string): val is ProjectStatus {
   return projectStatuses.some((status) => status === val);
+}
+
+function isProjectCategory(val: string): val is ProjectCategory {
+  return projectCategories.some((cat) => cat === val);
 }
 
 interface ProjectFormProps {
@@ -44,6 +48,7 @@ export function ProjectForm({ initialData, mode }: ProjectFormProps) {
   const [roleId, setRoleId] = useState(initialData?.role?.id ?? "");
 
   // Non-localized states
+  const [category, setCategory] = useState<ProjectCategory | "">(initialData?.category ?? "");
   const [status, setStatus] = useState<ProjectStatus>(initialData?.status ?? "draft");
   const [featured, setFeatured] = useState(initialData?.featured ?? false);
   const [featuredOrder, setFeaturedOrder] = useState(String(initialData?.featuredOrder ?? 99));
@@ -74,6 +79,7 @@ export function ProjectForm({ initialData, mode }: ProjectFormProps) {
         slug,
         tagline: { en: taglineEn, id: taglineId },
         description: { en: descriptionEn, id: descriptionId },
+        category: category || undefined,
         status,
         featured,
         featuredOrder: Number(featuredOrder),
@@ -214,6 +220,28 @@ export function ProjectForm({ initialData, mode }: ProjectFormProps) {
             <option value="draft">Draft</option>
             <option value="published">Published</option>
             <option value="archived">Archived</option>
+          </select>
+        </label>
+        <label className="grid gap-2 text-sm text-zinc-300">
+          Domain Category
+          <select
+            value={category}
+            onChange={(event) => {
+              const val = event.target.value;
+              if (val === "") {
+                setCategory("");
+              } else if (isProjectCategory(val)) {
+                setCategory(val);
+              }
+            }}
+            className="admin-input"
+          >
+            <option value="">Uncategorized</option>
+            <option value="govtech">Enterprise & GovTech</option>
+            <option value="ai-devtools">AI & DevTools</option>
+            <option value="iot-realtime">IoT & Realtime</option>
+            <option value="security-auth">Security & Auth</option>
+            <option value="fullstack-saas">Fullstack & SaaS</option>
           </select>
         </label>
         <label className="grid gap-2 text-sm text-zinc-300">

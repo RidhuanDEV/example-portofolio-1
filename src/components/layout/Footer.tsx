@@ -21,8 +21,17 @@ export async function Footer() {
           <Link href="/projects" className="hover:text-white">
             {dict.nav.projects}
           </Link>
+          <Link href="/system-design" className="hover:text-white">
+            {dict.nav.systemDesign}
+          </Link>
           <Link href="/writing" className="hover:text-white">
             {dict.nav.writing}
+          </Link>
+          <Link href="/resume" className="hover:text-white">
+            {dict.nav.resume}
+          </Link>
+          <Link href="/contact" className="hover:text-white">
+            {dict.nav.contact}
           </Link>
           <Link href="/admin" className="hover:text-white">
             {dict.footer.admin}

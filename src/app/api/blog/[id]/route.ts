@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 import { isValidObjectId } from "mongoose";
 import { requireAdmin, toErrorResponse } from "@/lib/api";
@@ -49,6 +50,8 @@ export async function PUT(request: NextRequest, context: BlogRouteContext): Prom
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
+    revalidateTag("blog", "max");
+
     return NextResponse.json({ post });
   } catch (error) {
     return toErrorResponse(error);
@@ -72,6 +75,8 @@ export async function DELETE(
     if (!deleted) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
+
+    revalidateTag("blog", "max");
 
     return NextResponse.json({ success: true });
   } catch (error) {

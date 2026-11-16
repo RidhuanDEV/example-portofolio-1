@@ -39,6 +39,17 @@ const ExperienceSchema = new Schema(
   { _id: true },
 );
 
+const EducationSchema = new Schema(
+  {
+    institution: { type: String, required: true },
+    degree: { type: LocalizedStringSchema, required: true },
+    period: { type: String, required: true },
+    gpa: String,
+    highlights: { type: [LocalizedStringSchema], default: [] },
+  },
+  { _id: false },
+);
+
 const ProfileSchema = new Schema<ProfileRecord>(
   {
     name: { type: String, required: true },
@@ -48,6 +59,7 @@ const ProfileSchema = new Schema<ProfileRecord>(
     avatar: String,
     location: OptionalLocalizedStringSchema,
     email: String,
+    phone: String,
     resumeUrl: String,
     socialLinks: {
       github: String,
@@ -57,6 +69,7 @@ const ProfileSchema = new Schema<ProfileRecord>(
     },
     skills: { type: [SkillSchema], default: [] },
     experiences: { type: [ExperienceSchema], default: [] },
+    education: { type: [EducationSchema], default: [] },
     currentFocus: { type: [LocalizedStringSchema], default: [] },
   },
   { timestamps: true },
@@ -70,4 +83,3 @@ try {
 }
 
 export const Profile = ProfileModel;
-

@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: Porto v3 Portfolio & CMS API - profile Module
+  version: 1.0.0
+  description: Source-verified OpenAPI 3.1.0 contract managed by Shadow Army.
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+tags:
+  - name: Profile
+    description: Endpoints for Profile
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: {}
+paths:
+  /api/profile:
+    get:
+      summary: Get portfolio profile
+      description: Get portfolio owner profile including skills, experiences, and education.
+      tags:
+        - Profile
+      operationId: get_api_profile
+      responses:
+        "200":
+          description: Profile data
+    put:
+      summary: Update portfolio profile
+      description: Upsert portfolio profile details (admin only).
+      tags:
+        - Profile
+      operationId: put_api_profile
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Updated profile
+        "401":
+          description: Unauthorized

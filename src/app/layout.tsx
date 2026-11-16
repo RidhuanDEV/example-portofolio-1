@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { PwaProvider } from "@/components/providers/PwaProvider";
+import { getServerLocale } from "@/lib/i18n-server";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -21,20 +22,70 @@ const fraunces = Fraunces({
   weight: ["400", "500", "600"],
 });
 
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://ridhuan-rangga.vercel.app").replace(
+  /\/$/,
+  "",
+);
+
 export const metadata: Metadata = {
-  title: "Ridhuan Rangga Kusuma - Software Engineer",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Ridhuan Rangga Kusuma - Full-Stack Software Engineer & QA Specialist",
+    template: "%s | Ridhuan Rangga Kusuma",
+  },
   description:
-    "Software engineer based in Jakarta building scalable backend systems, with documented case studies, architecture decisions, and technical writing.",
+    "Engineering portfolio of Ridhuan Rangga Kusuma in Jakarta: case studies, architecture decisions, OAuth 2.0/OIDC systems, IoT telemetry, AI tooling, and verifiable QA.",
+  openGraph: {
+    title: "Ridhuan Rangga Kusuma - Full-Stack Software Engineer & QA Specialist",
+    description:
+      "Production case studies, architecture decisions, empirical benchmarks, and verifiable QA engineering.",
+    url: siteUrl,
+    siteName: "Ridhuan Rangga Kusuma",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ridhuan Rangga Kusuma - Full-Stack Software Engineer & QA Specialist",
+    description:
+      "Production case studies, architecture decisions, empirical benchmarks, and verifiable QA engineering.",
+  },
 };
 
-export default function RootLayout({
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Ridhuan Rangga Kusuma",
+  jobTitle: "Full-Stack Software Engineer & QA Specialist",
+  url: siteUrl,
+  email: "mailto:ridhuanranggakusuma@gmail.com",
+  telephone: "+6282113472156",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Jakarta",
+    addressCountry: "ID",
+  },
+  alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: "Institut Teknologi Indonesia",
+    },
+  ],
+  sameAs: [
+    "https://github.com/RidhuanDEV",
+    "https://www.linkedin.com/in/ridhuan-rangga-kusuma-146241292/",
+  ],
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getServerLocale();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${dmSans.variable} ${ibmPlexMono.variable} ${fraunces.variable} h-full antialiased`}
@@ -47,16 +98,17 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-full flex-col bg-white dark:bg-[#08090b] text-zinc-800 dark:text-zinc-100 pb-20 md:pb-0">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <ThemeProvider>
           <PwaProvider>
             {/* Ambient visual depth background decorator layer */}
-            <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none" aria-hidden="true">
-              {/* Hardware-Accelerated Ambient Orbs (Gray & Blue gradients for light mode, neon ambient for dark mode) */}
+            <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none print:hidden" aria-hidden="true">
               <div className="absolute top-[8%] left-[8%] w-[40vw] h-[40vw] rounded-full bg-gray-100/10 dark:bg-cyan-500/[0.15] blur-[120px] animate-float-1 will-change-transform" />
               <div className="absolute bottom-[12%] right-[8%] w-[45vw] h-[45vw] rounded-full bg-blue-100/10 dark:bg-blue-500/[0.15] blur-[140px] animate-float-2 will-change-transform" />
-              
-              {/* Floating abstract geometrical wireframes */}
-              {/* Compass / technical circular grid top-right */}
+
               <svg
                 className="hidden md:block absolute top-[15%] right-[5%] w-[280px] h-[280px] text-gray-300/30 dark:text-cyan-400/[0.18] animate-float-1 animate-spin-slow will-change-transform"
                 viewBox="0 0 100 100"
@@ -71,7 +123,6 @@ export default function RootLayout({
                 <line x1="5" y1="50" x2="95" y2="50" strokeDasharray="1 3" />
               </svg>
 
-              {/* Geometric pattern crosshair bottom-left */}
               <svg
                 className="hidden md:block absolute bottom-[20%] left-[5%] w-[200px] h-[200px] text-blue-200/40 dark:text-teal-400/[0.15] animate-float-2 will-change-transform"
                 viewBox="0 0 100 100"
@@ -85,7 +136,6 @@ export default function RootLayout({
                 <path d="M 30 30 L 70 70 M 30 70 L 70 30" strokeDasharray="1 2" />
               </svg>
 
-              {/* Wireframe isometric cube / hexagon middle-left */}
               <svg
                 className="hidden md:block absolute top-[45%] left-[10%] w-[150px] h-[150px] text-gray-300/25 dark:text-blue-400/[0.15] animate-float-1 will-change-transform"
                 viewBox="0 0 100 100"
@@ -101,7 +151,6 @@ export default function RootLayout({
                 <line x1="90" y1="75" x2="50" y2="50" strokeDasharray="2 2" />
               </svg>
 
-              {/* Dynamic theme-compliant radial Dot Grid Overlay with custom boundary fadeout mask */}
               <div className="absolute inset-0 bg-[radial-gradient(rgba(156,163,175,0.08)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(34,211,238,0.04)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
             </div>
 

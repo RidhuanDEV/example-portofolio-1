@@ -1,0 +1,422 @@
+openapi: 3.1.0
+info:
+  title: Porto v3 Portfolio & CMS API
+  version: 1.0.0
+  description: REST API for portfolio projects, technical writing, profile, site settings, and contact inquiries.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/blog:
+    get:
+      summary: List blog articles
+      description: List blog posts filtered by published or draft status.
+      tags:
+        - Blog
+      operationId: get_api_blog
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Status filter (published|draft)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of blog posts
+    post:
+      summary: Create a blog article
+      description: Create a new bilingual technical blog post (admin only).
+      tags:
+        - Blog
+      operationId: post_api_blog
+      security:
+        - BearerAuth: []
+      responses:
+        "201":
+          description: Blog post created
+        "401":
+          description: Unauthorized
+  /api/blog/{id}:
+    get:
+      summary: Get blog article by ID or slug
+      description: Retrieve a blog post by ObjectId or slug.
+      tags:
+        - Blog
+      operationId: get_api_blog_id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Blog ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog post found
+        "404":
+          description: Not found
+    put:
+      summary: Update blog article by ID or slug
+      description: Update a blog post by ObjectId or slug (admin only).
+      tags:
+        - Blog
+      operationId: put_api_blog_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Blog ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog post updated
+        "401":
+          description: Unauthorized
+    delete:
+      summary: Delete blog article by ID or slug
+      description: Delete a blog post by ObjectId or slug (admin only).
+      tags:
+        - Blog
+      operationId: delete_api_blog_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Blog ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted successfully
+        "401":
+          description: Unauthorized
+  /api/contact:
+    get:
+      summary: List contact messages
+      description: List submitted contact messages (admin only).
+      tags:
+        - Contact
+      operationId: get_api_contact
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: List of contact inquiries
+        "401":
+          description: Unauthorized
+    post:
+      summary: Submit contact message
+      description: Submit a public contact inquiry and persist it to MongoDB when configured.
+      tags:
+        - Contact
+      operationId: post_api_contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: visitor@company.com
+                message:
+                  type: string
+                  example: Interested in collaborating on a distributed Go and Next.js project.
+                name:
+                  type: string
+                  example: Alex HiringManager
+              required:
+                - email
+                - message
+                - name
+            example:
+              email: visitor@company.com
+              message: Interested in collaborating on a distributed Go and Next.js project.
+              name: Alex HiringManager
+      responses:
+        "201":
+          description: Message accepted and saved
+        "422":
+          description: Validation failed
+  /api/profile:
+    get:
+      summary: Get portfolio profile
+      description: Get portfolio owner profile including skills, experiences, and education.
+      tags:
+        - Profile
+      operationId: get_api_profile
+      responses:
+        "200":
+          description: Profile data
+    put:
+      summary: Update portfolio profile
+      description: Upsert portfolio profile details (admin only).
+      tags:
+        - Profile
+      operationId: put_api_profile
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Updated profile
+        "401":
+          description: Unauthorized
+  /api/projects:
+    get:
+      summary: List portfolio projects
+      description: Fetch published portfolio projects filtered optionally by featured flag, status, or tag.
+      tags:
+        - Projects
+      operationId: get_api_projects
+      parameters:
+        - name: featured
+          in: query
+          required: false
+          description: Filter by featured=true
+          schema:
+            type: string
+        - name: tag
+          in: query
+          required: false
+          description: Filter by project tag
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: Filter by status (published|draft|archived)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of matching project records
+    post:
+      summary: Create a project case study
+      description: Create a new portfolio case study project (admin only). Auto-generates slug from title.en when slug is omitted.
+      tags:
+        - Projects
+      operationId: post_api_projects
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                      example: Project overview
+                    id:
+                      type: string
+                      example: Ringkasan proyek
+                  required:
+                    - en
+                    - id
+                featured:
+                  type: boolean
+                  example: true
+                featuredOrder:
+                  type: integer
+                  example: 1
+                slug:
+                  type: string
+                  example: sample-project
+                status:
+                  type: string
+                  example: published
+                tagline:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                      example: Impact tagline
+                    id:
+                      type: string
+                      example: Tagline dampak
+                  required:
+                    - en
+                    - id
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    example: typescript
+                teamSize:
+                  type: integer
+                  example: 2
+                title:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                      example: Sample Project
+                    id:
+                      type: string
+                      example: Proyek Contoh
+                  required:
+                    - en
+                    - id
+              required:
+                - description
+                - featured
+                - featuredOrder
+                - slug
+                - status
+                - tagline
+                - tags
+                - teamSize
+                - title
+            example:
+              description:
+                en: Project overview
+                id: Ringkasan proyek
+              featured: true
+              featuredOrder: 1
+              slug: sample-project
+              status: published
+              tagline:
+                en: Impact tagline
+                id: Tagline dampak
+              tags:
+                - typescript
+                - nextjs
+              teamSize: 2
+              title:
+                en: Sample Project
+                id: Proyek Contoh
+      responses:
+        "201":
+          description: Created project record
+        "401":
+          description: Unauthorized
+        "422":
+          description: Validation failed
+  /api/projects/{id}:
+    get:
+      summary: Get project by ID or slug
+      description: Get a single project by ObjectId or slug.
+      tags:
+        - Projects
+      operationId: get_api_projects_id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Project ObjectId or slug
+          schema:
+            type: string
+          example: academic-grant-governance-platform
+      responses:
+        "200":
+          description: Project found
+        "404":
+          description: Not found
+    put:
+      summary: Update project by ID or slug
+      description: Update an existing project by ObjectId or slug (admin only).
+      tags:
+        - Projects
+      operationId: put_api_projects_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Project ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Updated project
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not found
+    delete:
+      summary: Delete project by ID or slug
+      description: Delete a project by ObjectId or slug (admin only).
+      tags:
+        - Projects
+      operationId: delete_api_projects_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Project ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not found
+  /api/site-settings:
+    get:
+      summary: Get site settings
+      description: Get global site settings, hero copy, and featured metrics.
+      tags:
+        - Settings
+      operationId: get_api_site_settings
+      responses:
+        "200":
+          description: Site settings payload
+    put:
+      summary: Update site settings
+      description: Upsert global site settings (admin only).
+      tags:
+        - Settings
+      operationId: put_api_site_settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Updated site settings
+        "401":
+          description: Unauthorized
+  /api/upload:
+    post:
+      summary: Upload image to Cloudinary
+      description: Upload an image asset to Cloudinary (admin only, max 5MB).
+      tags:
+        - Media
+      operationId: post_api_upload
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Uploaded asset URL and publicId
+        "401":
+          description: Unauthorized
+        "501":
+          description: Cloudinary not configured
+components:
+  schemas: {}
+tags:
+  - name: Blog
+    description: Endpoints for Blog
+  - name: Contact
+    description: Endpoints for Contact
+  - name: Media
+    description: Endpoints for Media
+  - name: Profile
+    description: Endpoints for Profile
+  - name: Projects
+    description: Endpoints for Projects
+  - name: Settings
+    description: Endpoints for Settings

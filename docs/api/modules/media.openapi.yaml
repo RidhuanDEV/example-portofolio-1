@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Porto v3 Portfolio & CMS API - media Module
+  version: 1.0.0
+  description: Source-verified OpenAPI 3.1.0 contract managed by Shadow Army.
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+tags:
+  - name: Media
+    description: Endpoints for Media
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: {}
+paths:
+  /api/upload:
+    post:
+      summary: Upload image to Cloudinary
+      description: Upload an image asset to Cloudinary (admin only, max 5MB).
+      tags:
+        - Media
+      operationId: post_api_upload
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Uploaded asset URL and publicId
+        "401":
+          description: Unauthorized
+        "501":
+          description: Cloudinary not configured

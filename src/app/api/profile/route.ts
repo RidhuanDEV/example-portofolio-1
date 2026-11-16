@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin, toErrorResponse } from "@/lib/api";
 import { connectDB } from "@/lib/mongodb";
@@ -29,6 +30,9 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
       runValidators: true,
       upsert: true,
     }).lean<ProfileRecord | null>();
+
+    revalidateTag("profile", "max");
+    revalidateTag("home", "max");
 
     return NextResponse.json({ profile });
   } catch (error) {

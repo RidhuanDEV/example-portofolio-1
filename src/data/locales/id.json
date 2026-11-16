@@ -3,6 +3,7 @@
     "projects": "Studi Kasus",
     "systemDesign": "Desain Sistem",
     "writing": "Tulisan",
+    "resume": "CV & Resume",
     "contact": "Hubungi"
   },
   "home": {
@@ -10,7 +11,11 @@
     "caseStudiesTitle": "Studi kasus dengan bukti empiris.",
     "viewAll": "Lihat semua proyek",
     "philosophy": "Filosofi",
-    "currentFocus": "Fokus Saat Ini"
+    "currentFocus": "Fokus Saat Ini",
+    "experienceBadge": "Pengalaman & Pendidikan",
+    "experienceTitle": "Sistem produksi, penjaminan mutu, dan fondasi akademik yang terukur.",
+    "viewFullResume": "Lihat resume interaktif",
+    "present": "Sekarang"
   },
   "caseStudy": {
     "badge": "Studi Kasus",
@@ -27,20 +32,64 @@
   },
   "projects": {
     "badge": "Arsip Studi Kasus",
-    "headline": "Karya rekayasa yang dijelaskan melalui batasan, kompromi, dan hasil nyata."
+    "headline": "Karya rekayasa yang dijelaskan melalui batasan, kompromi, dan hasil nyata.",
+    "searchPlaceholder": "Cari studi kasus, tag, atau teknologi...",
+    "allCategories": "Semua Domain",
+    "allTech": "Semua Teknologi",
+    "clearFilters": "Reset filter",
+    "noResults": "Tidak ada studi kasus yang sesuai dengan filter yang dipilih.",
+    "showingCount": "Menampilkan",
+    "ofCount": "dari",
+    "liveDemo": "Demo Langsung",
+    "sourceCode": "Kode Sumber",
+    "categories": {
+      "govtech": "Enterprise & GovTech",
+      "ai-devtools": "AI & DevTools",
+      "iot-realtime": "IoT & Realtime",
+      "security-auth": "Keamanan & Auth",
+      "fullstack-saas": "Fullstack & SaaS"
+    }
   },
   "writing": {
     "badge": "Tulisan",
     "headline": "Catatan mengenai sistem, kompromi (trade-offs), dan penilaian rekayasa.",
     "readTimeLabel": "menit membaca"
   },
+  "resume": {
+    "badge": "Curriculum Vitae",
+    "headline": "Rekam jejak rekayasa, stack teknis, dan latar belakang pendidikan.",
+    "downloadPdf": "Unduh PDF ATS",
+    "printResume": "Cetak / Simpan PDF",
+    "summary": "Ringkasan Profesional",
+    "experience": "Pengalaman Profesional",
+    "education": "Pendidikan & Pelatihan",
+    "skills": "Keahlian Teknis",
+    "selectedProjects": "Sistem Rekayasa Utama",
+    "gpaLabel": "IPK",
+    "present": "Sekarang",
+    "skillCategories": {
+      "language": "Bahasa Pemrograman",
+      "framework": "Framework & UI",
+      "database": "Basis Data & Cache",
+      "cloud": "Cloud & DevOps",
+      "tool": "QA & Tooling",
+      "concept": "Arsitektur & AI"
+    }
+  },
   "contact": {
     "badge": "Hubungi",
     "headline": "Sampaikan masalah rekayasa perangkat lunak yang menantang.",
+    "subheadline": "Terbuka untuk peran full-stack, arsitektur backend, mobile, dan quality engineering maupun konsultasi teknis.",
+    "phone": "Telepon / WhatsApp",
     "name": "Nama",
     "email": "Email",
     "message": "Pesan",
-    "send": "Kirim pesan"
+    "send": "Kirim pesan",
+    "sending": "Mengirim pesan...",
+    "successTitle": "Pesan diterima",
+    "successMessage": "Terima kasih telah menghubungi. Pesan Anda telah tersimpan dan akan segera saya balas.",
+    "errorMessage": "Gagal mengirim pesan. Periksa isian formulir atau hubungi langsung melalui email.",
+    "sendAnother": "Kirim pesan lain"
   },
   "systemDesign": {
     "badge": "Desain Sistem",
@@ -51,7 +100,24 @@
       "Perlakukan kontrak data seperti kontrak produk.",
       "Pilih primitif sederhana yang teruji sampai pengukuran membuktikan sebaliknya.",
       "Buat kepemilikan operasional terlihat jelas di antarmuka."
-    ]
+    ],
+    "polyglotBadge": "Ekosistem Modular Polyglot",
+    "polyglotTitle": "Arsitektur starter backend dan frontend modular yang konsisten di 8 tech stack.",
+    "polyglotDescription": "Tim produksi membutuhkan batas modul yang terprediksi, validasi ketat, dan autentikasi bersih di runtime apa pun. Saya memelihara starter kit modular dengan RBAC, logging, dan validasi skema yang seragam lintas ekosistem."
+  },
+  "commandPalette": {
+    "triggerLabel": "Cari",
+    "placeholder": "Lompat ke studi kasus, artikel, halaman, atau aksi...",
+    "navigation": "Halaman",
+    "caseStudies": "Studi Kasus",
+    "articles": "Artikel",
+    "actions": "Aksi Cepat",
+    "toggleTheme": "Ganti Tema Terang / Gelap",
+    "switchLang": "Ganti Bahasa (EN / ID)",
+    "copyEmail": "Salin Alamat Email",
+    "emailCopied": "Email berhasil disalin",
+    "noResults": "Perintah yang sesuai tidak ditemukan.",
+    "shortcutHint": "ESC untuk tutup"
   },
   "admin": {
     "controlPlane": "Dasbor Kontrol Portofolio",
@@ -61,6 +127,7 @@
     "adrs": "ADR",
     "profile": "Profil",
     "settings": "Pengaturan Situs",
+    "messages": "Pesan",
     "logout": "Keluar",
     "new": "Baru",
     "create": "Buat",
@@ -68,7 +135,7 @@
   },
   "footer": {
     "platform": "Ridhuan Rangga Kusuma",
-    "description": "Software engineer yang berbasis di Jakarta. Saya membangun sistem backend yang skalabel dan menulis jujur tentang trade-off yang ada.",
+    "description": "Full-Stack Software Engineer & Spesialis QA berbasis di Jakarta. Membangun platform GovTech tangguh, sistem real-time, aplikasi mobile, dan tooling developer AI.",
     "admin": "Admin"
   }
 }

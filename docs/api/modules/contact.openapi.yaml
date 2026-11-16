@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: Porto v3 Portfolio & CMS API - contact Module
+  version: 1.0.0
+  description: Source-verified OpenAPI 3.1.0 contract managed by Shadow Army.
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+tags:
+  - name: Contact
+    description: Endpoints for Contact
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: {}
+paths:
+  /api/contact:
+    get:
+      summary: List contact messages
+      description: List submitted contact messages (admin only).
+      tags:
+        - Contact
+      operationId: get_api_contact
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: List of contact inquiries
+        "401":
+          description: Unauthorized
+    post:
+      summary: Submit contact message
+      description: Submit a public contact inquiry and persist it to MongoDB when configured.
+      tags:
+        - Contact
+      operationId: post_api_contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: visitor@company.com
+                message:
+                  type: string
+                  example: Interested in collaborating on a distributed Go and Next.js project.
+                name:
+                  type: string
+                  example: Alex HiringManager
+              required:
+                - email
+                - message
+                - name
+            example:
+              email: visitor@company.com
+              message: Interested in collaborating on a distributed Go and Next.js project.
+              name: Alex HiringManager
+      responses:
+        "201":
+          description: Message accepted and saved
+        "422":
+          description: Validation failed

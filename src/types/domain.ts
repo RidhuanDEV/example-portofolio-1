@@ -8,6 +8,15 @@ export interface LocalizedString {
 export const projectStatuses = ["draft", "published", "archived"] as const;
 export type ProjectStatus = (typeof projectStatuses)[number];
 
+export const projectCategories = [
+  "govtech",
+  "ai-devtools",
+  "iot-realtime",
+  "security-auth",
+  "fullstack-saas",
+] as const;
+export type ProjectCategory = (typeof projectCategories)[number];
+
 export const blogStatuses = ["draft", "published"] as const;
 export type BlogStatus = (typeof blogStatuses)[number];
 
@@ -55,6 +64,21 @@ export const skillCategories = [
 ] as const;
 export type SkillCategory = (typeof skillCategories)[number];
 
+export const diagramTones = ["teal", "amber", "green", "blue"] as const;
+export type DiagramTone = (typeof diagramTones)[number];
+
+export interface DiagramNode {
+  id: string;
+  label: string;
+  sublabel?: string;
+  tone?: DiagramTone;
+}
+
+export interface DiagramEdge {
+  from: number;
+  to: number;
+}
+
 export interface TechAlternative {
   name: string;
   reasonNotChosen: LocalizedString;
@@ -77,6 +101,8 @@ export interface Metric {
 export interface DiagramData {
   svgData?: string;
   interactive?: boolean;
+  nodes?: DiagramNode[];
+  edges?: DiagramEdge[];
 }
 
 export interface CaseStudySection {
@@ -106,6 +132,7 @@ export interface ProjectRecord {
   slug: string;
   tagline: LocalizedString;
   description: LocalizedString;
+  category?: ProjectCategory;
   status: ProjectStatus;
   featured: boolean;
   featuredOrder: number;
@@ -157,6 +184,14 @@ export interface Experience {
   techUsed: string[];
 }
 
+export interface EducationItem {
+  institution: string;
+  degree: LocalizedString;
+  period: string;
+  gpa?: string;
+  highlights: LocalizedString[];
+}
+
 export interface SocialLinks {
   github?: string;
   linkedin?: string;
@@ -173,10 +208,12 @@ export interface ProfileRecord {
   avatar?: string;
   location?: LocalizedString;
   email?: string;
+  phone?: string;
   resumeUrl?: string;
   socialLinks: SocialLinks;
   skills: Skill[];
   experiences: Experience[];
+  education?: EducationItem[];
   currentFocus: LocalizedString[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -200,16 +237,30 @@ export interface SiteSettingsRecord {
   updatedAt?: Date | string;
 }
 
+export interface ContactMessageRecord {
+  _id?: Types.ObjectId | string;
+  name: string;
+  email: string;
+  message: string;
+  status: "unread" | "read";
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+}
+
 export type ProjectSummary = Pick<
   ProjectRecord,
   | "title"
   | "slug"
   | "tagline"
   | "description"
+  | "category"
   | "status"
   | "featured"
   | "featuredOrder"
   | "coverImage"
+  | "demoUrl"
+  | "repoUrl"
+  | "techStack"
   | "metrics"
   | "tags"
   | "year"
@@ -223,4 +274,3 @@ export interface HomeData {
   settings: SiteSettingsRecord;
   featuredProjects: ProjectSummary[];
 }
-

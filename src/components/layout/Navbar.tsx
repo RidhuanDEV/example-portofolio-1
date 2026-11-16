@@ -1,22 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BriefcaseBusiness, Code, Mail } from "lucide-react";
-import { getTranslations } from "@/lib/i18n";
+import { getProfile, getPublishedBlogPosts, getPublishedProjects } from "@/lib/data";
+import { getTranslations, t } from "@/lib/i18n";
 import { getServerLocale } from "@/lib/i18n-server";
+import { CommandPalette } from "@/components/layout/CommandPalette";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { MobileBottomBar } from "@/components/layout/MobileBottomBar";
 
 export async function Navbar() {
-  const locale = await getServerLocale();
+  const [locale, projects, posts, profile] = await Promise.all([
+    getServerLocale(),
+    getPublishedProjects(),
+    getPublishedBlogPosts(),
+    getProfile(),
+  ]);
   const dict = getTranslations(locale);
 
   const navItems = [
     { href: "/projects", label: dict.nav.projects },
     { href: "/system-design", label: dict.nav.systemDesign },
     { href: "/writing", label: dict.nav.writing },
+    { href: "/resume", label: dict.nav.resume },
     { href: "/contact", label: dict.nav.contact },
   ];
+
+  const paletteProjects = projects.map((project) => ({
+    title: t(project.title, locale),
+    slug: project.slug,
+    subtitle: project.year ? String(project.year) : undefined,
+  }));
+
+  const palettePosts = posts.map((post) => ({
+    title: t(post.title, locale),
+    slug: post.slug,
+  }));
 
   return (
     <>
@@ -35,7 +54,8 @@ export async function Navbar() {
             </span>
             <span className="text-sm font-medium text-zinc-100">Ridhuan Rangga</span>
           </Link>
-          <nav className="hidden items-center gap-6 md:flex">
+
+          <nav className="hidden items-center gap-5 md:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -46,8 +66,16 @@ export async function Navbar() {
               </Link>
             ))}
           </nav>
+
           <div className="flex items-center gap-2">
-            {/* Desktop Only Actions */}
+            <CommandPalette
+              locale={locale}
+              dict={dict}
+              projects={paletteProjects}
+              posts={palettePosts}
+              email={profile.email ?? "ridhuanranggakusuma@gmail.com"}
+            />
+
             <div className="hidden items-center gap-2 md:flex">
               <div className="group relative">
                 <a
@@ -91,9 +119,7 @@ export async function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Bottom App Bar */}
       <MobileBottomBar locale={locale} dict={dict} navItems={navItems} />
     </>
   );
 }
-

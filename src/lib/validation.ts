@@ -2,6 +2,8 @@ import { z } from "zod";
 import {
   adrStatuses,
   blogStatuses,
+  diagramTones,
+  projectCategories,
   projectStatuses,
   sectionTypes,
   skillCategories,
@@ -20,10 +22,12 @@ export const localizedStringSchema = z.object({
 });
 
 // Optional Localized String Schema (for fields that can be empty or optional)
-export const optionalLocalizedStringSchema = z.object({
-  en: z.string().default(""),
-  id: z.string().default(""),
-}).optional();
+export const optionalLocalizedStringSchema = z
+  .object({
+    en: z.string().default(""),
+    id: z.string().default(""),
+  })
+  .optional();
 
 export const metricSchema = z.object({
   label: localizedStringSchema,
@@ -31,11 +35,24 @@ export const metricSchema = z.object({
   context: optionalLocalizedStringSchema,
 });
 
+export const diagramNodeSchema = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1),
+  sublabel: z.string().optional(),
+  tone: z.enum(diagramTones).optional(),
+});
+
+export const diagramEdgeSchema = z.object({
+  from: z.number().int().min(0),
+  to: z.number().int().min(0),
+});
+
 export const projectPayloadSchema = z.object({
   title: localizedStringSchema,
   slug: z.string().min(3).regex(/^[a-z0-9-]+$/),
   tagline: localizedStringSchema,
   description: localizedStringSchema,
+  category: z.enum(projectCategories).optional(),
   status: z.enum(projectStatuses),
   featured: z.boolean(),
   featuredOrder: z.number().int().min(0).default(99),
@@ -77,6 +94,8 @@ export const projectPayloadSchema = z.object({
           .object({
             svgData: z.string().optional(),
             interactive: z.boolean().optional(),
+            nodes: z.array(diagramNodeSchema).optional(),
+            edges: z.array(diagramEdgeSchema).optional(),
           })
           .optional(),
       }),
@@ -122,6 +141,7 @@ export const profilePayloadSchema = z.object({
   avatar: optionalUrl,
   location: optionalLocalizedStringSchema,
   email: z.email().optional(),
+  phone: z.string().optional(),
   resumeUrl: z.string().optional(),
   socialLinks: z.object({
     github: optionalUrl,
@@ -152,6 +172,17 @@ export const profilePayloadSchema = z.object({
       }),
     )
     .default([]),
+  education: z
+    .array(
+      z.object({
+        institution: z.string().min(1),
+        degree: localizedStringSchema,
+        period: z.string().min(4),
+        gpa: z.string().optional(),
+        highlights: z.array(localizedStringSchema).default([]),
+      }),
+    )
+    .optional(),
 });
 
 export type ProfilePayload = z.infer<typeof profilePayloadSchema>;

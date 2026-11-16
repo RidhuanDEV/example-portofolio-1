@@ -1,0 +1,218 @@
+openapi: 3.1.0
+info:
+  title: Porto v3 Portfolio & CMS API - projects Module
+  version: 1.0.0
+  description: Source-verified OpenAPI 3.1.0 contract managed by Shadow Army.
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+tags:
+  - name: Projects
+    description: Endpoints for Projects
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: {}
+paths:
+  /api/projects:
+    get:
+      summary: List portfolio projects
+      description: Fetch published portfolio projects filtered optionally by featured flag, status, or tag.
+      tags:
+        - Projects
+      operationId: get_api_projects
+      parameters:
+        - name: featured
+          in: query
+          required: false
+          description: Filter by featured=true
+          schema:
+            type: string
+        - name: tag
+          in: query
+          required: false
+          description: Filter by project tag
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: Filter by status (published|draft|archived)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of matching project records
+    post:
+      summary: Create a project case study
+      description: Create a new portfolio case study project (admin only). Auto-generates slug from title.en when slug is omitted.
+      tags:
+        - Projects
+      operationId: post_api_projects
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                      example: Project overview
+                    id:
+                      type: string
+                      example: Ringkasan proyek
+                  required:
+                    - en
+                    - id
+                featured:
+                  type: boolean
+                  example: true
+                featuredOrder:
+                  type: integer
+                  example: 1
+                slug:
+                  type: string
+                  example: sample-project
+                status:
+                  type: string
+                  example: published
+                tagline:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                      example: Impact tagline
+                    id:
+                      type: string
+                      example: Tagline dampak
+                  required:
+                    - en
+                    - id
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    example: typescript
+                teamSize:
+                  type: integer
+                  example: 2
+                title:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                      example: Sample Project
+                    id:
+                      type: string
+                      example: Proyek Contoh
+                  required:
+                    - en
+                    - id
+              required:
+                - description
+                - featured
+                - featuredOrder
+                - slug
+                - status
+                - tagline
+                - tags
+                - teamSize
+                - title
+            example:
+              description:
+                en: Project overview
+                id: Ringkasan proyek
+              featured: true
+              featuredOrder: 1
+              slug: sample-project
+              status: published
+              tagline:
+                en: Impact tagline
+                id: Tagline dampak
+              tags:
+                - typescript
+                - nextjs
+              teamSize: 2
+              title:
+                en: Sample Project
+                id: Proyek Contoh
+      responses:
+        "201":
+          description: Created project record
+        "401":
+          description: Unauthorized
+        "422":
+          description: Validation failed
+  /api/projects/{id}:
+    get:
+      summary: Get project by ID or slug
+      description: Get a single project by ObjectId or slug.
+      tags:
+        - Projects
+      operationId: get_api_projects_id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Project ObjectId or slug
+          schema:
+            type: string
+          example: academic-grant-governance-platform
+      responses:
+        "200":
+          description: Project found
+        "404":
+          description: Not found
+    put:
+      summary: Update project by ID or slug
+      description: Update an existing project by ObjectId or slug (admin only).
+      tags:
+        - Projects
+      operationId: put_api_projects_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Project ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Updated project
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not found
+    delete:
+      summary: Delete project by ID or slug
+      description: Delete a project by ObjectId or slug (admin only).
+      tags:
+        - Projects
+      operationId: delete_api_projects_id
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Project ObjectId or slug
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not found

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { Menu, X, Code, BriefcaseBusiness, Mail, BookOpen, Cpu } from "lucide-react";
+import { Menu, X, Code, BriefcaseBusiness, Mail, BookOpen, Cpu, FileText } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import type { Locale } from "@/lib/i18n";
@@ -92,6 +92,8 @@ export function MobileMenu({ navItems, locale, isBottomBarTrigger }: MobileMenuP
         return <Cpu size={18} className={iconClass} />;
       case "/writing":
         return <BookOpen size={18} className={iconClass} />;
+      case "/resume":
+        return <FileText size={18} className={iconClass} />;
       case "/contact":
         return <Mail size={18} className={iconClass} />;
       default:

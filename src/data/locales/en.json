@@ -3,6 +3,7 @@
     "projects": "Case Studies",
     "systemDesign": "System Design",
     "writing": "Writing",
+    "resume": "Resume",
     "contact": "Contact"
   },
   "home": {
@@ -10,7 +11,11 @@
     "caseStudiesTitle": "Case studies with receipts.",
     "viewAll": "View all projects",
     "philosophy": "Philosophy",
-    "currentFocus": "Current Focus"
+    "currentFocus": "Current Focus",
+    "experienceBadge": "Experience & Education",
+    "experienceTitle": "Production systems, quality engineering, and academic rigor.",
+    "viewFullResume": "View interactive resume",
+    "present": "Present"
   },
   "caseStudy": {
     "badge": "Case Study",
@@ -27,20 +32,64 @@
   },
   "projects": {
     "badge": "Case Study Archive",
-    "headline": "Engineering work explained through constraints, trade-offs, and outcomes."
+    "headline": "Engineering work explained through constraints, trade-offs, and outcomes.",
+    "searchPlaceholder": "Search case studies, tags, or stack...",
+    "allCategories": "All Domains",
+    "allTech": "All Tech",
+    "clearFilters": "Reset filters",
+    "noResults": "No case studies match the selected filters.",
+    "showingCount": "Showing",
+    "ofCount": "of",
+    "liveDemo": "Live Demo",
+    "sourceCode": "Source",
+    "categories": {
+      "govtech": "Enterprise & GovTech",
+      "ai-devtools": "AI & DevTools",
+      "iot-realtime": "IoT & Realtime",
+      "security-auth": "Security & Auth",
+      "fullstack-saas": "Fullstack & SaaS"
+    }
   },
   "writing": {
     "badge": "Writing",
     "headline": "Notes on systems, trade-offs, and engineering judgment.",
     "readTimeLabel": "min read"
   },
+  "resume": {
+    "badge": "Curriculum Vitae",
+    "headline": "Engineering track record, technical stack, and academic background.",
+    "downloadPdf": "Download ATS PDF",
+    "printResume": "Print / Save PDF",
+    "summary": "Professional Summary",
+    "experience": "Professional Experience",
+    "education": "Education & Training",
+    "skills": "Technical Skills",
+    "selectedProjects": "Key Engineering Systems",
+    "gpaLabel": "GPA",
+    "present": "Present",
+    "skillCategories": {
+      "language": "Languages",
+      "framework": "Frameworks & UI",
+      "database": "Databases & Cache",
+      "cloud": "Cloud & DevOps",
+      "tool": "QA & Tooling",
+      "concept": "Architecture & AI"
+    }
+  },
   "contact": {
     "badge": "Contact",
     "headline": "Bring a hard engineering problem.",
+    "subheadline": "Available for full-stack, backend architecture, mobile, and quality engineering roles or technical consulting.",
+    "phone": "Phone / WhatsApp",
     "name": "Name",
     "email": "Email",
     "message": "Message",
-    "send": "Send message"
+    "send": "Send message",
+    "sending": "Sending message...",
+    "successTitle": "Message received",
+    "successMessage": "Thank you for reaching out. Your inquiry has been recorded and I will respond promptly.",
+    "errorMessage": "Unable to send your message. Please verify your fields or email directly.",
+    "sendAnother": "Send another message"
   },
   "systemDesign": {
     "badge": "System Design",
@@ -51,7 +100,24 @@
       "Treat data contracts as product contracts.",
       "Prefer boring primitives until measurement proves otherwise.",
       "Make operational ownership visible in the interface."
-    ]
+    ],
+    "polyglotBadge": "Polyglot Modular Ecosystem",
+    "polyglotTitle": "Consistent modular backend and frontend starter architecture across 8 stacks.",
+    "polyglotDescription": "Production teams need predictable boundaries, strict validation, and clean authentication regardless of runtime. I maintain modular starter kits with unified RBAC, logging, and schema validation across multiple ecosystems."
+  },
+  "commandPalette": {
+    "triggerLabel": "Search",
+    "placeholder": "Jump to case study, article, page, or action...",
+    "navigation": "Pages",
+    "caseStudies": "Case Studies",
+    "articles": "Articles",
+    "actions": "Quick Actions",
+    "toggleTheme": "Toggle Light / Dark Theme",
+    "switchLang": "Switch Language (EN / ID)",
+    "copyEmail": "Copy Email Address",
+    "emailCopied": "Email copied to clipboard",
+    "noResults": "No matching commands found.",
+    "shortcutHint": "ESC to close"
   },
   "admin": {
     "controlPlane": "Portfolio control plane",
@@ -61,6 +127,7 @@
     "adrs": "ADRs",
     "profile": "Profile",
     "settings": "Site Settings",
+    "messages": "Messages",
     "logout": "Logout",
     "new": "New",
     "create": "Create",
@@ -68,7 +135,7 @@
   },
   "footer": {
     "platform": "Ridhuan Rangga Kusuma",
-    "description": "Software engineer based in Jakarta. I build scalable backend systems and write honestly about the trade-offs along the way.",
+    "description": "Full-Stack Software Engineer & QA Specialist based in Jakarta. Building resilient GovTech platforms, real-time systems, mobile apps, and AI developer tooling.",
     "admin": "Admin"
   }
 }

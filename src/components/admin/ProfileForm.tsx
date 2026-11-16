@@ -34,6 +34,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
   const [name, setName] = useState(initialData.name ?? "");
   const [avatar, setAvatar] = useState(initialData.avatar ?? "");
   const [email, setEmail] = useState(initialData.email ?? "");
+  const [phone, setPhone] = useState(initialData.phone ?? "");
   const [resumeUrl, setResumeUrl] = useState(initialData.resumeUrl ?? "");
   const [locationEn, setLocationEn] = useState(initialData.location?.en ?? "");
   const [locationId, setLocationId] = useState(initialData.location?.id ?? "");
@@ -233,6 +234,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
         name,
         avatar: avatar || undefined,
         email: email || undefined,
+        phone: phone || undefined,
         resumeUrl: resumeUrl || undefined,
         location: locationEn || locationId ? { en: locationEn, id: locationId } : undefined,
         title: { en: titleEn, id: titleId },
@@ -249,6 +251,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
           ...exp,
           endDate: exp.endDate || null,
         })),
+        education: initialData.education,
         currentFocus,
       });
 
@@ -356,6 +359,15 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                     onChange={(e) => setEmail(e.target.value)}
                     className="admin-input"
                     placeholder="e.g. contact@domain.com"
+                  />
+                </label>
+                <label className="grid gap-1.5 text-xs text-zinc-300">
+                  Phone / WhatsApp
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="admin-input"
+                    placeholder="e.g. +62 821-1347-2156"
                   />
                 </label>
                 <label className="grid gap-1.5 text-xs text-zinc-300">

@@ -118,13 +118,13 @@ export function ProjectsTable({ projects, locale }: ProjectsTableProps) {
                           Featured ({project.featuredOrder})
                         </span>
                       ) : (
-                        <span className="text-zinc-600 font-mono">—</span>
+                        <span className="text-zinc-600 font-mono">-</span>
                       )}
                     </td>
 
                     {/* Year */}
                     <td className="px-6 py-4 text-sm text-zinc-300 font-mono">
-                      {project.year ?? "—"}
+                      {project.year ?? "-"}
                     </td>
 
                     {/* Actions */}

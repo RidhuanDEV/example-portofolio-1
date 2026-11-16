@@ -7,7 +7,13 @@ if (!password) {
   process.exit(1);
 }
 
-const hash = await bcrypt.hash(password, 12);
+async function main() {
+  const hash = await bcrypt.hash(password, 12);
+  console.log("Add this value to .env.local:");
+  console.log(`ADMIN_PASSWORD_HASH=${hash}`);
+}
 
-console.log("Add this value to .env.local:");
-console.log(`ADMIN_PASSWORD_HASH=${hash}`);
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

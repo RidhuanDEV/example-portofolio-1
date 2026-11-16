@@ -13,6 +13,7 @@ import {
   Workflow,
   LogOut,
   Globe,
+  Mail,
   Menu,
   X,
 } from "lucide-react";
@@ -21,6 +22,7 @@ const adminLinks = [
   { href: "/admin", label: "Dashboard", icon: Gauge },
   { href: "/admin/projects", label: "Projects", icon: Workflow },
   { href: "/admin/blog", label: "Writing", icon: FileText },
+  { href: "/admin/messages", label: "Messages", icon: Mail },
   { href: "/admin/profile", label: "Profile", icon: User },
   { href: "/admin/site-settings", label: "Settings", icon: Settings },
   { href: "/admin/adrs", label: "ADRs", icon: BookOpen },

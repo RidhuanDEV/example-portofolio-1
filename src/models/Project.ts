@@ -1,6 +1,8 @@
 import mongoose, { type Model, Schema } from "mongoose";
 import {
   adrStatuses,
+  diagramTones,
+  projectCategories,
   projectStatuses,
   sectionTypes,
   techCategories,
@@ -65,6 +67,24 @@ const ADRSchema = new Schema(
   { _id: true },
 );
 
+const DiagramNodeSchema = new Schema(
+  {
+    id: { type: String, required: true },
+    label: { type: String, required: true },
+    sublabel: String,
+    tone: { type: String, enum: diagramTones },
+  },
+  { _id: false },
+);
+
+const DiagramEdgeSchema = new Schema(
+  {
+    from: { type: Number, required: true },
+    to: { type: Number, required: true },
+  },
+  { _id: false },
+);
+
 const SectionSchema = new Schema(
   {
     type: { type: String, enum: sectionTypes, required: true },
@@ -74,6 +94,8 @@ const SectionSchema = new Schema(
     diagram: {
       svgData: String,
       interactive: Boolean,
+      nodes: { type: [DiagramNodeSchema], default: undefined },
+      edges: { type: [DiagramEdgeSchema], default: undefined },
     },
   },
   { _id: true },
@@ -85,6 +107,7 @@ const ProjectSchema = new Schema<ProjectRecord>(
     slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
     tagline: { type: LocalizedStringSchema, required: true },
     description: { type: LocalizedStringSchema, required: true },
+    category: { type: String, enum: projectCategories },
     status: { type: String, enum: projectStatuses, default: "draft" },
     featured: { type: Boolean, default: false },
     featuredOrder: { type: Number, default: 99 },
@@ -115,4 +138,3 @@ try {
 }
 
 export const Project = ProjectModel;
-
